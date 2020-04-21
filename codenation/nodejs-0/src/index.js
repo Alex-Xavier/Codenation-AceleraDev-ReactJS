@@ -11,15 +11,12 @@ const fibonacci = () => {
 
 const isFibonnaci = (numero) => {
 	const auxiliar = fibonacci()
-	console.log(auxiliar)
 
-	auxiliar.map( (valor) => {
-		console.log(numero, valor)
-		if (numero == valor) {
-			console.log('ENTROU NO IF')
+	for (let i = 0; i < auxiliar.length; i++) {
+		if (numero == auxiliar[i]) {
 			return true
 		}
-	});
+	}
 
 	return false
 }
