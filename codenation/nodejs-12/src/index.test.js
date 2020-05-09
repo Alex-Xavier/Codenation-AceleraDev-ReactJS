@@ -1,5 +1,5 @@
-const { products } = require('../src/data/products');
-const { getShoppingCart } = require('../src');
+const { products } = require('./data/products.json');
+const { getShoppingCart } = require('.');
 
 const exemplo1Mock = {
 	products: [
