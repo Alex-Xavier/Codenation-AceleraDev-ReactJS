@@ -1,60 +1,72 @@
-let shoppingCart = {
-	products: [
-		{
-      name: '',
-      category: ''
-		},
-		{
-      name: '',
-      category: ''
-		},
-		{
-      name: '',
-      category: ''
-		},
-		{
-      name: '',
-      category: ''
+const promotions = ["SINGLE LOOK", "DOUBLE LOOK", "TRIPLE LOOK", "FULL LOOK"]
+
+const getProducts = (ids, productsList) => {
+	return productsList.filter((product) => ids.includes(product.id))
+}
+
+
+const getPromotion = (products) => {
+  const category = products
+    .map((product) => product.category)
+
+    .filter((category, index, array) => array.indexOf(category) === index)
+
+    .length
+
+  return promotions[category - 1]
+}
+
+
+const getPricePromotion = (promotions, promotion) =>
+	promotions.filter((product) => product.looks.includes(promotion))
+
+const getCart = (products, promotion) =>
+  products.reduce(
+    (cart, product) => {
+      const { name, category, regularPrice, promotions } = product
+
+      const [promotionPrice] = getPricePromotion(promotions, promotion)
+
+      cart.products.push({ name, category })
+
+      cart.regularPrice += regularPrice
+
+      cart.price += promotionPrice ? promotionPrice.price : regularPrice
+
+      return cart
+    },
+
+    {
+      products: [],
+      price: 0,
+      regularPrice: 0
     }
-	],
-	promotion: '',
-  totalPrice: 0,
-  discountValue: 0,
-  discountPercentage: ''
-}
-
-const promotions = ['SINGLE LOOK', 'DOUBLE LOOK', 'TRIPLE LOOK', 'FULL LOOK'];
-
-function filterProducts (ids, productsList) {
-	for (let i = 0; i < productsList.length; i++) {
-		for (let j = 0; j < ids.length; j++) {
-			if (productsList[i].id === ids[j]) {
-				shoppingCart.products[j].name = productsList[i].name
-				shoppingCart.products[j].category = productsList[i].category
-
-				//shoppingCart.products[j] = 
-			}
-		}
-	}
-
-	console.log(shoppingCart)
-	return shoppingCart
-	/*shoppingCart = ids.map((id, index) => {
-		return {
-			products: [index] = {
-				name: name,				
-				category: category
-			}
-		}
-	})*/
-}
+  )
 
 function getShoppingCart(ids, productsList) {
+  const products = getProducts(ids, productsList)
 
-	shoppingCart = filterProducts(ids, productsList)
+  const promotion = getPromotion(products)
 
-	console.log(shoppingCart)
-	return shoppingCart;
+  const cart = getCart(products, promotion)
+
+  const discountValue = (cart.regularPrice - cart.price).toFixed(2)
+
+  const discountPercent = `${(
+    (discountValue / cart.regularPrice) * 100
+  ).toFixed(2)}%`
+
+  return {
+    products: cart.products,
+
+    promotion,
+
+    totalPrice: cart.price.toFixed(2),
+
+    discountValue: discountValue,
+
+    discount: discountPercent
+  }
 }
 
-module.exports = { getShoppingCart };
+module.exports = { getShoppingCart }
