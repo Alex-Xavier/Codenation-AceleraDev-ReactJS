@@ -1,17 +1,22 @@
-import React from 'react';
+import React from 'react'
 
-import { ReactComponent as LogoSvg } from "./assets/img/logo.svg";
+import { ReactComponent as LogoSvg } from "./assets/img/logo.svg"
 
-import './App.scss';
+import './App.scss'
 
 class App extends React.Component {
+
+  constructor() {
+    super()
+  }
+
   render() {
     return (
       <React.Fragment>
         <header className="topbar">
           <div className="container">
             <a href="/" className="topbar__logo">
-              <LogoSvg alt="Logo Instagram" />
+              <LogoSvg alt="Logo Contact" />
             </a>
           </div>
         </header>
@@ -66,4 +71,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default App
